@@ -1,0 +1,59 @@
+\documentclass{beamer}
+\usetheme[deutsch]{KIT}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{babel}
+\usepackage{tikz,calc,ifthen}
+\usepackage{mathtools}
+\usepackage[normalem]{ulem}
+\usepackage{graphicx}
+
+\usetikzlibrary{positioning,calc,arrows,shapes}
+\tikzset{
+  every node/.style={transform shape},
+  auto,
+  block/.style={align=center,rectangle,draw,minimum height=20pt,minimum width=30pt},
+  >=triangle 60,
+  alt/.code args={<#1>#2#3}{%
+      \alt<#1>{\pgfkeysalso{#2}}{\pgfkeysalso{#3}}
+  },
+  beameralert/.style={alt=<#1>{color=green!80!black}{}},
+  mythick/.style={line width=1.4pt}
+}
+
+\newcommand*{\maxwidthofm}[2]{\maxof{\widthof{$#1$}}{\widthof{$#2$}}}
+\newcommand<>*{\robustaltm}[2]{
+  \alt#3
+  {\mathmakebox[\maxwidthofm{#1}{#2}]{#1}\vphantom{#1#2}}
+    {\mathmakebox[\maxwidthofm{#1}{#2}]{#2}\vphantom{#1#2}}
+}
+
+\newcommand<>*{\nodealert}[1]{\only#2{\draw[overlay,mythick,color=green!80!black] (#1.north west) rectangle (#1.south east)}}
+
+\title{Optimierungsphase und Tests}
+\author{Gruppe 3}
+\subtitle{\insertauthor}
+\institute[IPD]{Lehrstuhl Programmierparadigmen, IPD Snelting}
+\date{29.10.2013}
+\KITtitleimage{images/cover}
+\setlength{\titleimageht}{100cm}
+
+\begin{document}
+
+\begin{frame}
+  \maketitle
+\end{frame}
+
+\begin{frame}{Struktur}
+\begin{enumerate}
+  \item Beginne \textbf{nicht} mit einer Übersicht/Agenda/Gliederung/etc
+  \item Ein einführendes Beispiel um das Problem zu erklären
+  \item Beispielhaft den eigenen Lösungsansatz erklären
+  \item Lösung im Allgemeinen erklären
+  \item Evaluation und verwandte Arbeiten präsentieren
+  \item Zusammenfassungsfolie als Abschluss
+\end{enumerate}
+\end{frame}
+
+\end{document}
