@@ -8,6 +8,11 @@
 \usepackage{mathtools}
 \usepackage[normalem]{ulem}
 \usepackage{graphicx}
+\usepackage{minted}
+\usepackage[]{algorithm2e}
+\usepackage{pgfplots,pgfplotstable}
+\usepgfplotslibrary{dateplot}
+\usepackage{filecontents}
 
 \usetikzlibrary{positioning,calc,arrows,shapes}
 \tikzset{
@@ -39,21 +44,436 @@
 \KITtitleimage{images/cover}
 \setlength{\titleimageht}{100cm}
 
+\newenvironment{javacode}{\begin{minted}[escapeinside=||]{java}}{\end{minted}}
+
+\newcommand\Wider[2][3em]{%
+	\makebox[\linewidth][c]{%
+		\begin{minipage}{\dimexpr\textwidth+#1\relax}
+			\raggedright#2
+		\end{minipage}%
+	}%
+}
+
 \begin{document}
 
 \begin{frame}
   \maketitle
 \end{frame}
 
-\begin{frame}{Struktur}
-\begin{enumerate}
-  \item Beginne \textbf{nicht} mit einer Übersicht/Agenda/Gliederung/etc
-  \item Ein einführendes Beispiel um das Problem zu erklären
-  \item Beispielhaft den eigenen Lösungsansatz erklären
-  \item Lösung im Allgemeinen erklären
-  \item Evaluation und verwandte Arbeiten präsentieren
-  \item Zusammenfassungsfolie als Abschluss
-\end{enumerate}
+\begin{frame}[fragile]{Ziel von Optimierungen}
+	\begin{minted}[escapeinside=||]{java}
+class Test {
+
+	public boolean run(){
+		int size = 10;
+		int[] result = createArray(size, size * 3 + 4);
+		return result[0] == size * 3 + 4;
+	}
+		
+	public int[] createArray(int size, int value){
+		int[] arr = new int[size];
+		arr[0] = value;
+		return arr;
+	}
+}
+	\end{minted}
+\end{frame}
+
+\begin{frame}[fragile]{Ziel von Optimierungen}
+	\begin{minted}[escapeinside=||]{java}
+class Test {
+
+	public boolean run(){
+	
+	
+		return true;
+	}
+	
+	public int[] createArray(int size, int value){
+		int[] arr = new int[size];
+		arr[0] = value;
+		return arr;
+	}
+}
+	\end{minted}
+\end{frame}
+
+\begin{frame}{Verband}
+	\textit{Grafik mti Verband, unten "`Unwissen"', oben "`zu viel Wissen"'}
+\end{frame}
+
+\begin{frame}{Optimierungsalgorithmus}
+	\begin{algorithm}[H]
+		\KwData{Firm graph}
+		\KwResult{Optimized firm graph}
+		\KwData{Information for each node}
+		\While{Information for each node changed}{
+			Walk the graph topological and update information\;.
+		}
+		Simplification\;
+	\end{algorithm}
+\end{frame}
+
+\begin{frame}[fragile]{Beispiel im Folgenden}
+\begin{minted}[escapeinside=||]{java}
+class Test {
+
+	public boolean run(){
+		int size = 10;
+		int[] result = createArray(size, size * 3 + 4);
+		return result[0] == size * 3 + 4;
+	}
+	
+	public int[] createArray(int size, int value){
+		int[] arr = new int[size];
+		arr[0] = value;
+		return arr;
+	}
+}
+\end{minted}
+\end{frame}
+
+\newcommand\myonly[2]{\only<#1>{#2}}
+\newcommand{\highlight}{\color{orange}}
+\newcommand{\myhonly}[2]{{\highlight\myonly{#1}{#2}}}
+\newcommand{\mymonly}[2]{{\myonly{#1}{#2}}}
+
+\begin{frame}[fragile]{Common Subexpression Elemination}
+\begin{minted}[escapeinside=||]{java}
+class Test {
+	
+	public boolean run(){
+		int size = 10;
+		|\myhonly{2-}{int imm = size * 3 + 4;}|
+		int[] result = createArray(size, |\myhonly{1}{size * 3 + 4}\myhonly{2-}{imm}|);
+		return result[0] == |\myhonly{1}{size * 3 + 4}\myonly{2-}{imm}|);
+	}
+	
+	public int[] createArray(int size, int value){
+		int[] arr = new int[size];
+		arr[0] = value;
+		return arr;
+	}
+}
+\end{minted}
+\end{frame}
+
+\begin{frame}[fragile]{Constant Propagation}
+\begin{minted}[escapeinside=||]{java}
+class Test {
+
+	public boolean run(){
+		|\myhonly{1}{int size = 10;}|
+		|\mymonly{-4}{int imm =}\myhonly{1}{ size}\myhonly{2}{ 10}\myonly{1-2}{ * 3 + 4}\myhonly{3}{ 30 + 4}\myhonly{4}{ 34}\mymonly{-4}{;}\myhonly{5}{int imm = 34;}|
+		int[] result = createArray(|\myhonly{1}{size}\myhonly{2}{10}\mymonly{3-}{10}|, |\mymonly{-4}{imm}\myhonly{5}{imm}\myhonly{6}{34}|);
+		return result[0] == imm;
+	}
+
+	public int[] createArray(int size, int value){
+		int[] arr = new int[size];
+		arr[0] = value;
+		return arr;
+	}
+}
+\end{minted}
+\end{frame}
+
+
+\begin{frame}[fragile]{Inlining}
+	\begin{minted}[escapeinside=||]{java}
+class Test {
+	
+	public boolean run(){
+		int[] result = |\myhonly{1}{createArray(10, 34)}|;
+		return result[0] == 34;
+	}
+	
+	public int[] createArray(int size, int value){
+		int[] arr = new int[size];
+		arr[0] = value;
+		return arr;
+	}
+}
+	\end{minted}
+\end{frame}
+
+\begin{frame}[fragile]{Inlining}
+\begin{minted}[escapeinside=||]{java}
+class Test {
+
+	public boolean run(){
+		int value = 34;
+		int[] arr = new int[size];
+		arr[0] = value;
+		int[] result = arr;
+		return result[0] == 34;
+	}
+	
+	public int[] createArray(int size, int value){
+		int[] arr = new int[size];
+		arr[0] = value;
+		return arr;
+	}
+}
+\end{minted}
+\end{frame}
+
+\begin{frame}[fragile]{Cleaning up after inlining}
+	\begin{minted}[escapeinside=||]{java}
+class Test {
+	
+	public boolean run(){
+		int[] arr = new int[size];
+		arr[0] = 34;
+		return arr[0] == 34;
+	}
+	
+	public int[] createArray(int size, int value){
+		int[] arr = new int[size];
+		arr[0] = value;
+		return arr;
+	}
+}
+\end{minted}
+\end{frame}
+
+\begin{frame}[fragile]{Alias Analysis}
+	\begin{minted}[escapeinside=||]{java}
+class Test {
+	
+	public boolean run(){
+		|\myonly{1}{int[] arr = new int[size];}|
+		|\myhonly{1}{arr[0] = 34;}|
+		return |\myhonly{1}{arr[0]}\myhonly{2}{34}| == 34;
+	}
+	
+	public int[] createArray(int size, int value){
+		int[] arr = new int[size];
+		arr[0] = value;
+		return arr;
+	}
+}
+	\end{minted}
+\end{frame}
+
+\begin{frame}[fragile]{Constant Propagation}
+\begin{minted}[escapeinside=||]{java}
+class Test {
+	
+	public boolean run(){
+		return |\myhonly{1}{34 == 34}\myhonly{2}{true}|;
+	}
+	
+	public int[] createArray(int size, int value){
+		int[] arr = new int[size];
+		arr[0] = value;
+		return arr;
+	}
+}
+\end{minted}
+\end{frame}
+
+\begin{frame}{Fixpunktiteration}
+	\begin{algorithm}[H]
+		\KwData{Firm graph}
+		\KwResult{Optimized firm graph}
+		\KwData{Information for each node}
+		\While{Graph changed}{
+			\ForEach{Optimization}{Use it}
+		}
+	\end{algorithm}
+\end{frame}
+
+\begin{frame}[fragile]{mjTest}
+	\begin{minted}[escapeinside=||]{bash}
+mjt.py [-h] [--only_incorrect_tests] 
+	[--parallel]
+	[--ci_testing]
+	{all,
+	lexer,
+	syntax,
+	ast,
+	semantic,
+	compile-firm,
+	,compile}
+	MJ_RUN
+	\end{minted}
+\end{frame}
+
+	\begin{filecontents*}{exec.csv}
+	d, c
+	16-11-17, 10
+	16-11-22, 3
+	16-11-28, 72
+	16-12-10, 1
+	16-12-28, 2
+	17-01-04, 4
+	17-01-15, 6
+	17-01-16, 4
+	17-01-23, 2
+\end{filecontents*}
+
+
+\begin{filecontents*}{semantic.csv}
+	d, c
+	16-11-09, 56
+	16-11-18, 157
+	16-11-22, 17
+	16-12-03, 2
+	16-12-27, 6
+\end{filecontents*}
+
+
+\begin{filecontents*}{syntax.csv}
+	d, c
+	16-10-29, 1
+	16-11-04, 80
+	16-11-09, 12
+	16-11-16, 4
+	16-12-27, 3
+\end{filecontents*}
+
+
+\begin{filecontents*}{lexer.csv}
+	d, c
+	16-11-07, 7
+	16-11-16, 1
+\end{filecontents*}
+
+\begin{filecontents*}{semantic2.csv}
+	d, c
+	16-11-09, 6266
+	16-11-18, 19205
+	16-11-22, 1730
+	16-12-03, 211
+	16-12-27, 635
+\end{filecontents*}
+
+
+\begin{filecontents*}{exec2.csv}
+	d, c
+	16-11-17, 3627
+	16-11-22, 7431
+	16-11-28, 31106
+	16-12-10, 251
+	16-12-28, 318
+	17-01-04, 735
+	17-01-15, 1443
+	17-01-16, 744
+	17-01-23, 340
+\end{filecontents*}
+
+
+\begin{filecontents*}{syntax2.csv}
+	d, c
+	16-10-29, 32
+	16-11-04, 8177
+	16-11-09, 1088
+	16-11-16, 303
+	16-12-27, 294
+\end{filecontents*}
+
+
+\begin{filecontents*}{lexer2.csv}
+	d, c
+	16-11-07, 673
+	16-11-16, 25
+\end{filecontents*}
+
+
+\begin{frame}{mjTest \textendash Statistiken}
+	\only<1>{
+		\centering
+		    \begin{tikzpicture}
+	\begin{axis}[
+	symbolic x coords={1, 2, 3, 4, 5},
+	xtick=data,
+	ylabel={Test files},
+	xlabel={Gruppe}
+	]
+	\addplot[ybar,fill=blue] coordinates {
+		(1, 33)
+		(2, 28)
+		(3, 259)
+		(4, 102)
+		(5, 28)
+	};
+	\end{axis}
+	\end{tikzpicture}	
+}
+\only<2>{
+
+	\begin{tikzpicture}
+\begin{axis}[
+width=10cm,
+height=6cm,
+date coordinates in=x,
+xlabel=Month,
+xticklabel={\pgfcalendarmonthshortname{\month}}, % short name of month for ticklabels
+xtick={ % ticks at first day of each month
+	16-11-01,
+	16-12-01,
+	16-10-01,
+	17-01-01,
+	17-02-01},
+xticklabel style={font=\footnotesize},
+ylabel={Test file count},
+ymin=0
+]
+
+\addplot table [x=d,y=c, col sep=comma] {lexer.csv};
+\addplot table [x=d,y=c, col sep=comma] {syntax.csv};
+\addplot table [x=d,y=c, col sep=comma] {semantic.csv};
+\addplot table [x=d,y=c, col sep=comma] {exec.csv};
+
+\addlegendentry{Lexer}
+\addlegendentry{Parser}
+\addlegendentry{Semantic}
+\addlegendentry{Execute}
+
+\end{axis}
+\end{tikzpicture}
+}
+\only<3>{
+\begin{tikzpicture}
+\begin{axis}[
+width=10cm,
+height=6cm,
+date coordinates in=x,
+xlabel=Month,
+xticklabel={\pgfcalendarmonthshortname{\month}}, % short name of month for ticklabels
+xtick={ % ticks at first day of each month
+	16-11-01,
+	16-12-01,
+	16-10-01,
+	17-01-01,
+	17-02-01},
+xticklabel style={font=\footnotesize},
+ylabel={Test files gzipped},
+ymin=0
+]
+
+\addplot table [x=d,y=c, col sep=comma] {lexer2.csv};
+\addplot table [x=d,y=c, col sep=comma] {syntax2.csv};
+\addplot table [x=d,y=c, col sep=comma] {semantic2.csv};
+\addplot table [x=d,y=c, col sep=comma] {exec2.csv};
+
+\addlegendentry{Lexer}
+\addlegendentry{Parser}
+\addlegendentry{Semantic}
+\addlegendentry{Execute}
+
+\end{axis}
+\end{tikzpicture}
+}
+\end{frame}
+
+\begin{frame}{Zusammenfassung}
+\begin{itemize}
+	\item Viel Arbeit und viel Spaß
+	\item n Zeilen Java Code
+	\item \dots
+\end{itemize}
 \end{frame}
 
 \end{document}
