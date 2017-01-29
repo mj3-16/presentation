@@ -99,46 +99,34 @@ class Test {
 \end{frame}
 
 \begin{frame}{Verband}
-	\textit{Grafik mti Verband, unten "`Unwissen"', oben "`zu viel Wissen"'}
+	\textit{Grafik mit Verband, unten "`Unwissen"', oben "`zu viel Wissen"'}
 \end{frame}
 
-\begin{frame}{Optimierungsalgorithmus}
-	\begin{algorithm}[H]
-		\KwData{Firm graph}
-		\KwResult{Optimized firm graph}
-		\KwData{Information for each node}
-		\While{Information for each node changed}{
-			Walk the graph topological and update information\;.
-		}
-		Simplification\;
-	\end{algorithm}
-\end{frame}
-
-\begin{frame}[fragile]{Beispiel im Folgenden}
-\begin{minted}[escapeinside=||]{java}
-class Test {
-
-	public boolean run(){
-		int size = 10;
-		int[] result = createArray(size, size * 3 + 4);
-		return result[0] == size * 3 + 4;
-	}
-	
-	public int[] createArray(int size, int value){
-		int[] arr = new int[size];
-		arr[0] = value;
-		return arr;
-	}
-}
-\end{minted}
-\end{frame}
+%\begin{frame}[fragile]{Beispiel im Folgenden}
+%\begin{minted}[escapeinside=||]{java}
+%class Test {
+%
+%	public boolean run(){
+%		int size = 10;
+%		int[] result = createArray(size, size * 3 + 4);
+%		return result[0] == size * 3 + 4;
+%	}
+%	
+%	public int[] createArray(int size, int value){
+%		int[] arr = new int[size];
+%		arr[0] = value;
+%		return arr;
+%	}
+%}
+%\end{minted}
+%\end{frame}
 
 \newcommand\myonly[2]{\only<#1>{#2}}
-\newcommand{\highlight}{\color{orange}}
-\newcommand{\myhonly}[2]{{\highlight\myonly{#1}{#2}}}
+\newcommand{\highlight}[1]{\color{orange}\textbf{#1}}
+\newcommand{\myhonly}[2]{{\highlight{\myonly{#1}{#2}}}}
 \newcommand{\mymonly}[2]{{\myonly{#1}{#2}}}
 
-\begin{frame}[fragile]{Common Subexpression Elemination}
+\begin{frame}[fragile]{Common Subexpression Elimination}
 \begin{minted}[escapeinside=||]{java}
 class Test {
 	
@@ -146,7 +134,7 @@ class Test {
 		int size = 10;
 		|\myhonly{2-}{int imm = size * 3 + 4;}|
 		int[] result = createArray(size, |\myhonly{1}{size * 3 + 4}\myhonly{2-}{imm}|);
-		return result[0] == |\myhonly{1}{size * 3 + 4}\myonly{2-}{imm}|);
+		return result[0] == |\myhonly{1}{size * 3 + 4}\myhonly{2-}{imm}|;
 	}
 	
 	public int[] createArray(int size, int value){
@@ -163,10 +151,10 @@ class Test {
 class Test {
 
 	public boolean run(){
-		|\myhonly{1}{int size = 10;}|
-		|\mymonly{-4}{int imm =}\myhonly{1}{ size}\myhonly{2}{ 10}\myonly{1-2}{ * 3 + 4}\myhonly{3}{ 30 + 4}\myhonly{4}{ 34}\mymonly{-4}{;}\myhonly{5}{int imm = 34;}|
-		int[] result = createArray(|\myhonly{1}{size}\myhonly{2}{10}\mymonly{3-}{10}|, |\mymonly{-4}{imm}\myhonly{5}{imm}\myhonly{6}{34}|);
-		return result[0] == imm;
+		|\myhonly{1-2}{int size = 10;}|
+		|\mymonly{-5}{int imm =}\mymonly{1}{ size * 3 + 4}\myhonly{2}{ size}\myhonly{3}{ 10}\myonly{2-3}{ * 3 + 4}\myhonly{4}{ 30 + 4}\myhonly{5}{ 34}\mymonly{-5}{;}\myhonly{6}{int imm = 34;}|
+		int[] result = createArray(|\myonly{1}{size}\myhonly{2}{size}\myhonly{3}{10}\mymonly{4-}{10}|, |\mymonly{-5}{imm}\myhonly{6}{imm}\myhonly{7}{34}|);
+		return result[0] == |\mymonly{-5}{imm}\myhonly{6}{imm}\myhonly{7}{34}|;
 	}
 
 	public int[] createArray(int size, int value){
@@ -243,7 +231,7 @@ class Test {
 	
 	public boolean run(){
 		|\myonly{1}{int[] arr = new int[size];}|
-		|\myhonly{1}{arr[0] = 34;}|
+		|\myhonly{1}{arr[0]}\mymonly{1}{ = 34;}|
 		return |\myhonly{1}{arr[0]}\myhonly{2}{34}| == 34;
 	}
 	
@@ -274,6 +262,7 @@ class Test {
 \end{frame}
 
 \begin{frame}{Fixpunktiteration}
+	\centering
 	\begin{algorithm}[H]
 		\KwData{Firm graph}
 		\KwResult{Optimized firm graph}
@@ -284,7 +273,7 @@ class Test {
 	\end{algorithm}
 \end{frame}
 
-\begin{frame}[fragile]{mjTest}
+\begin{frame}[fragile]{mjtest}
 	\begin{minted}[escapeinside=||]{bash}
 mjt.py [-h] [--only_incorrect_tests] 
 	[--parallel]
@@ -295,7 +284,7 @@ mjt.py [-h] [--only_incorrect_tests]
 	ast,
 	semantic,
 	compile-firm,
-	,compile}
+	compile}
 	MJ_RUN
 	\end{minted}
 \end{frame}
@@ -381,9 +370,9 @@ mjt.py [-h] [--only_incorrect_tests]
 \end{filecontents*}
 
 
-\begin{frame}{mjTest \textendash Statistiken}
+\begin{frame}{mjtest \textendash Statistiken}
+	\centering
 	\only<1>{
-		\centering
 		    \begin{tikzpicture}
 	\begin{axis}[
 	symbolic x coords={1, 2, 3, 4, 5},
@@ -467,6 +456,7 @@ ymin=0
 \end{tikzpicture}
 }
 \end{frame}
+
 
 \begin{frame}{Zusammenfassung}
 \begin{itemize}
