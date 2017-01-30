@@ -127,6 +127,8 @@ class Test {
 \newcommand{\mymonly}[2]{{\myonly{#1}{#2}}}
 
 \begin{frame}[fragile]{Common Subexpression Elemination}
+%\only<1>{\setminted{highlightlines={6,7}}}
+%\only<2>{\setminted{highlightlines={5-7}}}
 \begin{minted}[escapeinside=||]{java}
 class Test {
 	
@@ -152,9 +154,9 @@ class Test {
 
 	public boolean run(){
 		|\myhonly{1-2}{int size = 10;}|
-		|\mymonly{-5}{int imm =}\mymonly{1}{ size * 3 + 4}\myhonly{2}{ size}\myhonly{3}{ 10}\myonly{2-3}{ * 3 + 4}\myhonly{4}{ 30 + 4}\myhonly{5}{ 34}\mymonly{-5}{;}\myhonly{6}{int imm = 34;}|
-		int[] result = createArray(|\myonly{1}{size}\myhonly{2}{size}\myhonly{3}{10}\mymonly{4-}{10}|, |\mymonly{-5}{imm}\myhonly{6}{imm}\myhonly{7}{34}|);
-		return result[0] == |\mymonly{-5}{imm}\myhonly{6}{imm}\myhonly{7}{34}|;
+		|\mymonly{-6}{int imm =}\mymonly{1}{ size * 3 + 4}\myhonly{2}{ size}\myhonly{3}{ 10}\myonly{2-3}{ * 3 + 4}\myhonly{4}{ 10 * 3}\mymonly{4}{ + 4}\myhonly{5}{ 30 + 4}\myhonly{6}{ 34}\mymonly{-6}{;}\myhonly{7}{int imm = 34;}|
+		int[] result = createArray(|\myonly{1}{size}\myhonly{2}{size}\myhonly{3}{10}\mymonly{4-}{10}|, |\mymonly{-6}{imm}\myhonly{7}{imm}\myhonly{8}{34}|);
+		return result[0] == |\mymonly{-6}{imm}\myhonly{7}{imm}\myhonly{8}{34}|;
 	}
 
 	public int[] createArray(int size, int value){
@@ -186,7 +188,7 @@ class Test {
 \end{frame}
 
 \begin{frame}[fragile]{Inlining}
-\begin{minted}[escapeinside=||]{java}
+\begin{minted}[escapeinside=||, highlightlines={4-7}]{java}
 class Test {
 
 	public boolean run(){
@@ -207,7 +209,7 @@ class Test {
 \end{frame}
 
 \begin{frame}[fragile]{Cleaning up after inlining}
-	\begin{minted}[escapeinside=||]{java}
+	\begin{minted}[escapeinside=||, highlightlines={4-5}]{java}
 class Test {
 	
 	public boolean run(){
@@ -469,7 +471,6 @@ class Test {
 		elements = new ArrayList<Integer>(size);
 		arr = new int[]{size, size + 1};
 	}
-
 }
 \end{minted}
 \end{frame}
