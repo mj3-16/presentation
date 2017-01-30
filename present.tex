@@ -102,31 +102,31 @@ class Test {
 	\textit{Grafik mit Verband, unten "`Unwissen"', oben "`zu viel Wissen"'}
 \end{frame}
 
-%\begin{frame}[fragile]{Beispiel im Folgenden}
-%\begin{minted}[escapeinside=||]{java}
-%class Test {
-%
-%	public boolean run(){
-%		int size = 10;
-%		int[] result = createArray(size, size * 3 + 4);
-%		return result[0] == size * 3 + 4;
-%	}
-%	
-%	public int[] createArray(int size, int value){
-%		int[] arr = new int[size];
-%		arr[0] = value;
-%		return arr;
-%	}
-%}
-%\end{minted}
-%\end{frame}
+\begin{frame}[fragile]{Beispiel im Folgenden}
+\begin{minted}[escapeinside=||]{java}
+class Test {
+
+	public boolean run(){
+		int size = 10;
+		int[] result = createArray(size, size * 3 + 4);
+		return result[0] == size * 3 + 4;
+	}
+	
+	public int[] createArray(int size, int value){
+		int[] arr = new int[size];
+		arr[0] = value;
+		return arr;
+	}
+}
+\end{minted}
+\end{frame}
 
 \newcommand\myonly[2]{\only<#1>{#2}}
-\newcommand{\highlight}[1]{\color{orange}\textbf{#1}}
-\newcommand{\myhonly}[2]{{\highlight{\myonly{#1}{#2}}}}
+\newcommand{\highlight}{\color{orange}}
+\newcommand{\myhonly}[2]{{\highlight\myonly{#1}{#2}}}
 \newcommand{\mymonly}[2]{{\myonly{#1}{#2}}}
 
-\begin{frame}[fragile]{Common Subexpression Elimination}
+\begin{frame}[fragile]{Common Subexpression Elemination}
 \begin{minted}[escapeinside=||]{java}
 class Test {
 	
@@ -261,7 +261,7 @@ class Test {
 \end{minted}
 \end{frame}
 
-\begin{frame}{Fixpunktiteration}
+\begin{frame}{Fix Point Iteration}
 	\centering
 	\begin{algorithm}[H]
 		\KwData{Firm graph}
@@ -370,7 +370,7 @@ mjt.py [-h] [--only_incorrect_tests]
 \end{filecontents*}
 
 
-\begin{frame}{mjtest \textendash Statistiken}
+\begin{frame}{mjtest \textendash Statistics}
 	\centering
 	\only<1>{
 		    \begin{tikzpicture}
@@ -457,8 +457,24 @@ ymin=0
 }
 \end{frame}
 
+\begin{frame}[fragile]{Preprocessor}
+\begin{minted}[escapeinside=||]{java}
+import lib.ArrayList;
 
-\begin{frame}{Zusammenfassung}
+class Test {
+	ArrayList<Integer> elements;
+	int[] arr;
+	
+	public Test(int size){
+		elements = new ArrayList<Integer>(size);
+		arr = new int[]{size, size + 1};
+	}
+
+}
+\end{minted}
+\end{frame}
+
+\begin{frame}{Summary}
 \begin{itemize}
 	\item Viel Arbeit und viel Spaß
 	\item n Zeilen Java Code
