@@ -275,188 +275,223 @@ class Test {
 	\end{algorithm}
 \end{frame}
 
-\begin{frame}[fragile]{mjtest}
-	\begin{minted}[escapeinside=||]{bash}
-mjt.py [-h] [--only_incorrect_tests] 
-	[--parallel]
-	[--ci_testing]
-	{all,
-	lexer,
-	syntax,
-	ast,
-	semantic,
-	compile-firm,
-	compile}
-	MJ_RUN
-	\end{minted}
+\begin{frame}{mjtest}
+	\begin{itemize}
+		\item Compiler testing framework
+		\item \dots and the curated test cases of all groups
+		\item 5 test categories:
+		\begin{itemize}
+			\item \textit{lexer}
+			\item \textit{syntax}
+			\item \textit{ast}
+			\item \textit{semantic}
+			\item \textit{exec}
+		\end{itemize}
+		\item Usable for ci-testing
+	\end{itemize}
 \end{frame}
-
-	\begin{filecontents*}{exec.csv}
+           \begin{filecontents*}{semantic.csv}
 	d, c
-	16-11-17, 10
-	16-11-22, 3
-	16-11-28, 72
-	16-12-10, 1
-	16-12-28, 2
-	17-01-04, 4
-	17-01-15, 6
-	17-01-16, 4
-	17-01-23, 2
-\end{filecontents*}
-
-
-\begin{filecontents*}{semantic.csv}
-	d, c
-	16-11-09, 56
-	16-11-18, 157
-	16-11-22, 17
-	16-12-03, 2
-	16-12-27, 6
+	16-10-29, 1
+	16-11-02, 14
+	16-11-03, 54
+	16-11-04, 81
+	16-11-07, 88
+	16-11-09, 156
+	16-11-14, 169
+	16-11-15, 209
+	16-11-16, 224
+	16-11-17, 256
+	16-11-18, 272
+	16-11-19, 296
+	16-11-20, 318
+	16-11-21, 323
+	16-11-22, 335
+	16-11-28, 335
+	16-11-29, 336
+	16-11-30, 336
+	16-12-01, 336
+	16-12-02, 336
+	16-12-03, 337
+	16-12-10, 337
+	16-12-27, 346
+	16-12-28, 346
+	16-12-30, 346
+	17-01-04, 346
+	17-01-11, 346
+	17-01-13, 346
+	17-01-15, 346
+	17-01-16, 346
+	17-01-17, 346
+	17-01-23, 346
 \end{filecontents*}
 
 
 \begin{filecontents*}{syntax.csv}
 	d, c
 	16-10-29, 1
-	16-11-04, 80
-	16-11-09, 12
-	16-11-16, 4
-	16-12-27, 3
+	16-11-02, 14
+	16-11-03, 54
+	16-11-04, 81
+	16-11-07, 88
+	16-11-09, 100
+	16-11-14, 100
+	16-11-15, 100
+	16-11-16, 105
+	16-11-17, 105
+	16-11-18, 105
+	16-11-19, 105
+	16-11-20, 105
+	16-11-21, 105
+	16-11-22, 105
+	16-11-28, 105
+	16-11-29, 105
+	16-11-30, 105
+	16-12-01, 105
+	16-12-02, 105
+	16-12-03, 105
+	16-12-10, 105
+	16-12-27, 108
+	16-12-28, 108
+	16-12-30, 108
+	17-01-04, 108
+	17-01-11, 108
+	17-01-13, 108
+	17-01-15, 108
+	17-01-16, 108
+	17-01-17, 108
+	17-01-23, 108
+\end{filecontents*}
+
+
+\begin{filecontents*}{exec.csv}
+	d, c
+	16-10-29, 1
+	16-11-02, 14
+	16-11-03, 54
+	16-11-04, 81
+	16-11-07, 88
+	16-11-09, 156
+	16-11-14, 169
+	16-11-15, 209
+	16-11-16, 224
+	16-11-17, 264
+	16-11-18, 280
+	16-11-19, 304
+	16-11-20, 328
+	16-11-21, 333
+	16-11-22, 348
+	16-11-28, 350
+	16-11-29, 375
+	16-11-30, 404
+	16-12-01, 412
+	16-12-02, 421
+	16-12-03, 422
+	16-12-10, 423
+	16-12-27, 432
+	16-12-28, 433
+	16-12-30, 434
+	17-01-04, 438
+	17-01-11, 439
+	17-01-13, 440
+	17-01-15, 444
+	17-01-16, 445
+	17-01-17, 448
+	17-01-23, 450
 \end{filecontents*}
 
 
 \begin{filecontents*}{lexer.csv}
 	d, c
+	16-10-29, 0
+	16-11-02, 0
+	16-11-03, 0
+	16-11-04, 0
 	16-11-07, 7
-	16-11-16, 1
+	16-11-09, 7
+	16-11-14, 7
+	16-11-15, 7
+	16-11-16, 8
+	16-11-17, 8
+	16-11-18, 8
+	16-11-19, 8
+	16-11-20, 8
+	16-11-21, 8
+	16-11-22, 8
+	16-11-28, 8
+	16-11-29, 8
+	16-11-30, 8
+	16-12-01, 8
+	16-12-02, 8
+	16-12-03, 8
+	16-12-10, 8
+	16-12-27, 8
+	16-12-28, 8
+	16-12-30, 8
+	17-01-04, 8
+	17-01-11, 8
+	17-01-13, 8
+	17-01-15, 8
+	17-01-16, 8
+	17-01-17, 8
+	17-01-23, 8
 \end{filecontents*}
 
-\begin{filecontents*}{semantic2.csv}
-	d, c
-	16-11-09, 6266
-	16-11-18, 19205
-	16-11-22, 1730
-	16-12-03, 211
-	16-12-27, 635
-\end{filecontents*}
-
-
-\begin{filecontents*}{exec2.csv}
-	d, c
-	16-11-17, 3627
-	16-11-22, 7431
-	16-11-28, 31106
-	16-12-10, 251
-	16-12-28, 318
-	17-01-04, 735
-	17-01-15, 1443
-	17-01-16, 744
-	17-01-23, 340
-\end{filecontents*}
-
-
-\begin{filecontents*}{syntax2.csv}
-	d, c
-	16-10-29, 32
-	16-11-04, 8177
-	16-11-09, 1088
-	16-11-16, 303
-	16-12-27, 294
-\end{filecontents*}
-
-
-\begin{filecontents*}{lexer2.csv}
-	d, c
-	16-11-07, 673
-	16-11-16, 25
-\end{filecontents*}
-
-
-\begin{frame}{mjtest \textendash Statistics}
+\begin{frame}{Test files over time}
 	\centering
-	\only<1>{
-		    \begin{tikzpicture}
-	\begin{axis}[
-	symbolic x coords={1, 2, 3, 4, 5},
-	xtick=data,
-	ylabel={Test files},
-	xlabel={Gruppe}
-	]
-	\addplot[ybar,fill=blue] coordinates {
-		(1, 33)
-		(2, 28)
-		(3, 259)
-		(4, 102)
-		(5, 28)
-	};
-	\end{axis}
-	\end{tikzpicture}	
-}
-\only<2>{
 
 	\begin{tikzpicture}
 \begin{axis}[
-width=10cm,
-height=6cm,
+width=12cm,
+height=7.6cm,
+ymax=700,
 date coordinates in=x,
-xlabel=Month,
-xticklabel={\pgfcalendarmonthshortname{\month}}, % short name of month for ticklabels
-xtick={ % ticks at first day of each month
-	16-11-01,
-	16-12-01,
-	16-10-01,
-	17-01-01,
-	17-02-01},
+grid=both,
+major grid style={line width=.1pt, draw=gray!10},
+%xlabel=Month,
+%xticklabel={\pgfcalendarmonthshortname{\month}},
+%xtick={ % ticks at first day of each month
+%	16-11-01,
+%	16-12-01,
+%	16-10-01,
+%	17-01-01,
+%	17-02-01},
+xticklabels={Lexer,Parser,AST,Semantic,IR,Optimization,Backend,2017},
+xlabel style={yshift=-1cm},
+x tick label style={
+	rotate=45,
+	anchor=east,
+},
+xtick={16-10-17, 16-10-24, 16-11-07, 16-11-14, 16-11-21, 16-12-05, 16-12-12, 17-01-01},
 xticklabel style={font=\footnotesize},
-ylabel={Test file count},
+%ylabel={Test file count},
 ymin=0
 ]
 
-\addplot table [x=d,y=c, col sep=comma] {lexer.csv};
-\addplot table [x=d,y=c, col sep=comma] {syntax.csv};
-\addplot table [x=d,y=c, col sep=comma] {semantic.csv};
-\addplot table [x=d,y=c, col sep=comma] {exec.csv};
+\addplot table [x=d,y=c, mark=, col sep=comma] {lexer.csv};
+\addplot table [x=d,y=c, mark=, col sep=comma] {syntax.csv};
+\addplot table [x=d,y=c, mark=, col sep=comma] {semantic.csv};
+\addplot table [x=d,y=c, mark=, col sep=comma] {exec.csv};
 
-\addlegendentry{Lexer}
+\addlegendentry[mark=]{Lexer}
 \addlegendentry{Parser}
 \addlegendentry{Semantic}
 \addlegendentry{Execute}
 
 \end{axis}
 \end{tikzpicture}
-}
-\only<3>{
-\begin{tikzpicture}
-\begin{axis}[
-width=10cm,
-height=6cm,
-date coordinates in=x,
-xlabel=Month,
-xticklabel={\pgfcalendarmonthshortname{\month}}, % short name of month for ticklabels
-xtick={ % ticks at first day of each month
-	16-11-01,
-	16-12-01,
-	16-10-01,
-	17-01-01,
-	17-02-01},
-xticklabel style={font=\footnotesize},
-ylabel={Test files gzipped},
-ymin=0
-]
 
-\addplot table [x=d,y=c, col sep=comma] {lexer2.csv};
-\addplot table [x=d,y=c, col sep=comma] {syntax2.csv};
-\addplot table [x=d,y=c, col sep=comma] {semantic2.csv};
-\addplot table [x=d,y=c, col sep=comma] {exec2.csv};
+\end{frame}
 
-\addlegendentry{Lexer}
-\addlegendentry{Parser}
-\addlegendentry{Semantic}
-\addlegendentry{Execute}
-
-\end{axis}
-\end{tikzpicture}
-}
+\begin{frame}{Interesting \textit{exec} Tests}
+\begin{itemize}
+	\item Conways game of life
+	\item Math expression interpreter
+	\item Mersenne twister random number generator
+	\item Quine
+	\item Turing machine
+	\item \textit{binarytrees} and \textit{fannkuchredux} of the \textit{Benchmarks game}
+\end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]{Preprocessor}
