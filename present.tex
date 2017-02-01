@@ -586,11 +586,10 @@ class Test {
 	\begin{itemize}
 		\item Compiler testing framework
 		\item \dots and the curated test cases of all groups
-		\item 5 test categories:
+		\item 4 test categories:
 		\begin{itemize}
 			\item \textit{lexer}
 			\item \textit{syntax}
-			\item \textit{ast}
 			\item \textit{semantic}
 			\item \textit{exec}
 		\end{itemize}
@@ -763,7 +762,7 @@ major grid style={line width=.1pt, draw=gray!10},
 %	16-10-01,
 %	17-01-01,
 %	17-02-01},
-xticklabels={Lexer,Parser,AST,Semantic,IR,Optimization,Backend,2017},
+xticklabels={Lexer,Parser~~,AST~~,Semantic~~,IR~~,Optimization~~,Backend~~,2017~~},
 xlabel style={yshift=-1cm},
 x tick label style={
 	rotate=45,
@@ -780,10 +779,10 @@ ymin=0
 \addplot table [x=d,y=c, mark=, col sep=comma] {semantic.csv};
 \addplot [dashed] table [x=d,y=c, mark=, col sep=comma] {exec.csv};
 
-\addlegendentry[mark=]{Lexer}
-\addlegendentry{Parser}
-\addlegendentry{Semantic}
-\addlegendentry{Execute}
+\addlegendentry{\textit{lexer}}
+\addlegendentry{\textit{syntax}}
+\addlegendentry{\textit{semantic}}
+\addlegendentry{\textit{exec}}
 
 \end{axis}
 \end{tikzpicture}
