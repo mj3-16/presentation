@@ -165,10 +165,11 @@ class Test {
 \end{frame}
 
 \begin{frame}[fragile]{Inlining}
-\begin{minted}[escapeinside=||, highlightlines={4-7}]{java}
+\begin{minted}[escapeinside=||, highlightlines={4-8}]{java}
 class Test {
 
 	public boolean run(){
+		int size = 10;
 		int value = 34;
 		int[] arr = new int[size];
 		arr[0] = value;
@@ -190,7 +191,7 @@ class Test {
 class Test {
 	
 	public boolean run(){
-		int[] arr = new int[size];
+		int[] arr = new int[10];
 		arr[0] = 34;
 		return arr[0] == 34;
 	}
