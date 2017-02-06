@@ -60,12 +60,14 @@
   \maketitle
 \end{frame}
 
-\begin{frame}[fragile]{Aim of optimizations}
+\begin{frame}[fragile]{Goal of optimizations}
 	\begin{minted}[escapeinside=||]{java}
 class Test {
 
 	public boolean run(){
+	
 		int size = 10;
+		
 		int[] result = createArray(size, size * 3 + 4);
 		return result[0] == size * 3 + 4;
 	}
@@ -79,11 +81,13 @@ class Test {
 	\end{minted}
 \end{frame}
 
-\begin{frame}[fragile]{Aim of optimizations}
+\begin{frame}[fragile]{Goal of optimizations}
 	\begin{minted}[escapeinside=||]{java}
 class Test {
 
 	public boolean run(){
+	
+	
 	
 	
 		return true;
@@ -110,6 +114,7 @@ class Test {
 class Test {
 	
 	public boolean run(){
+	
 		int size = 10;
 		|\myhonly{2-}{int imm = size * 3 + 4;}|
 		int[] result = createArray(size, |\myhonly{1}{size * 3 + 4}\myhonly{2-}{imm}|);
@@ -130,6 +135,7 @@ class Test {
 class Test {
 
 	public boolean run(){
+	
 		|\myhonly{1-2}{int size = 10;}|
 		|\mymonly{-6}{int imm =}\mymonly{1}{ size * 3 + 4}\myhonly{2}{ size}\myhonly{3}{ 10}\myonly{2-3}{ * 3 + 4}\myhonly{4}{ 10 * 3}\mymonly{4}{ + 4}\myhonly{5}{ 30 + 4}\myhonly{6}{ 34}\mymonly{-6}{;}\myhonly{7}{int imm = 34;}|
 		int[] result = createArray(|\myonly{1}{size}\myhonly{2}{size}\myhonly{3}{10}\mymonly{4-}{10}|, |\mymonly{-6}{imm}\myhonly{7}{imm}\myhonly{8}{34}|);
@@ -151,6 +157,9 @@ class Test {
 class Test {
 	
 	public boolean run(){
+	
+	
+	
 		int[] result = |\myhonly{1}{createArray(10, 34)}|;
 		return result[0] == 34;
 	}
@@ -169,8 +178,7 @@ class Test {
 class Test {
 
 	public boolean run(){
-		int size = 10;
-		int value = 34;
+		int size = 10; int value = 34;
 		int[] arr = new int[size];
 		arr[0] = value;
 		int[] result = arr;
@@ -187,10 +195,12 @@ class Test {
 \end{frame}
 
 \begin{frame}[fragile]{Cleaning up after inlining}
-	\begin{minted}[escapeinside=||, highlightlines={4-5}]{java}
+	\begin{minted}[escapeinside=||, highlightlines={6-8}]{java}
 class Test {
 	
 	public boolean run(){
+	
+	
 		int[] arr = new int[10];
 		arr[0] = 34;
 		return arr[0] == 34;
@@ -210,6 +220,8 @@ class Test {
 class Test {
 	
 	public boolean run(){
+	
+	
 		|\myonly{1}{int[] arr = new int[size];}|
 		|\myhonly{1}{arr[0]}\mymonly{1}{ = 34;}|
 		return |\myhonly{1}{arr[0]}\myhonly{2}{34}| == 34;
@@ -229,6 +241,10 @@ class Test {
 class Test {
 	
 	public boolean run(){
+	
+	
+	
+	
 		return |\myhonly{1}{34 == 34}\myhonly{2}{true}|;
 	}
 	
@@ -455,7 +471,7 @@ class Test {
 	\end{tikzpicture}
 \end{frame}
 
-\begin{frame}{Fix point iteration}
+\begin{frame}{Fixed point iteration}
 	\centering
 \ifx\du\undefined
 \newlength{\du}
@@ -595,6 +611,14 @@ class Test {
 
 \end{frame}
 
+\begin{frame}{Additional Optimizations}
+	\begin{itemize}
+		\item Alias Analysis
+		\item Loop Invariant Code Motion
+	\end{itemize}
+\end{frame}
+
+
 \begin{frame}{mjtest}
 	\begin{itemize}
 		\item Compiler testing framework
@@ -609,40 +633,42 @@ class Test {
 		\item Usable for ci-testing
 	\end{itemize}
 \end{frame}
-           \begin{filecontents*}{semantic.csv}
+            \begin{filecontents*}{lexer.csv}
 	d, c
-	16-10-29, 1
-	16-11-02, 14
-	16-11-03, 54
-	16-11-04, 81
-	16-11-07, 88
-	16-11-09, 156
-	16-11-14, 169
-	16-11-15, 209
-	16-11-16, 224
-	16-11-17, 256
-	16-11-18, 272
-	16-11-19, 296
-	16-11-20, 318
-	16-11-21, 323
-	16-11-22, 335
-	16-11-28, 335
-	16-11-29, 336
-	16-11-30, 336
-	16-12-01, 336
-	16-12-02, 336
-	16-12-03, 337
-	16-12-10, 337
-	16-12-27, 346
-	16-12-28, 346
-	16-12-30, 346
-	17-01-04, 346
-	17-01-11, 346
-	17-01-13, 346
-	17-01-15, 346
-	17-01-16, 346
-	17-01-17, 346
-	17-01-23, 346
+	16-10-29, 0
+	16-11-02, 0
+	16-11-03, 0
+	16-11-04, 0
+	16-11-07, 7
+	16-11-09, 7
+	16-11-14, 7
+	16-11-15, 7
+	16-11-16, 8
+	16-11-17, 8
+	16-11-18, 8
+	16-11-19, 8
+	16-11-20, 8
+	16-11-21, 8
+	16-11-22, 8
+	16-11-28, 8
+	16-11-29, 8
+	16-11-30, 8
+	16-12-01, 8
+	16-12-02, 8
+	16-12-03, 8
+	16-12-10, 8
+	16-12-27, 8
+	16-12-28, 8
+	16-12-30, 8
+	17-01-04, 8
+	17-01-11, 8
+	17-01-13, 8
+	17-01-15, 8
+	17-01-16, 8
+	17-01-17, 8
+	17-01-23, 8
+	17-01-28, 8
+	17-01-30, 8
 \end{filecontents*}
 
 
@@ -680,6 +706,8 @@ class Test {
 	17-01-16, 108
 	17-01-17, 108
 	17-01-23, 108
+	17-01-28, 108
+	17-01-30, 108
 \end{filecontents*}
 
 
@@ -717,44 +745,49 @@ class Test {
 	17-01-16, 445
 	17-01-17, 448
 	17-01-23, 450
+	17-01-28, 452
+	17-01-30, 453
 \end{filecontents*}
 
 
-\begin{filecontents*}{lexer.csv}
+\begin{filecontents*}{semantic.csv}
 	d, c
-	16-10-29, 0
-	16-11-02, 0
-	16-11-03, 0
-	16-11-04, 0
-	16-11-07, 7
-	16-11-09, 7
-	16-11-14, 7
-	16-11-15, 7
-	16-11-16, 8
-	16-11-17, 8
-	16-11-18, 8
-	16-11-19, 8
-	16-11-20, 8
-	16-11-21, 8
-	16-11-22, 8
-	16-11-28, 8
-	16-11-29, 8
-	16-11-30, 8
-	16-12-01, 8
-	16-12-02, 8
-	16-12-03, 8
-	16-12-10, 8
-	16-12-27, 8
-	16-12-28, 8
-	16-12-30, 8
-	17-01-04, 8
-	17-01-11, 8
-	17-01-13, 8
-	17-01-15, 8
-	17-01-16, 8
-	17-01-17, 8
-	17-01-23, 8
+	16-10-29, 1
+	16-11-02, 14
+	16-11-03, 54
+	16-11-04, 81
+	16-11-07, 88
+	16-11-09, 156
+	16-11-14, 169
+	16-11-15, 209
+	16-11-16, 224
+	16-11-17, 256
+	16-11-18, 272
+	16-11-19, 296
+	16-11-20, 318
+	16-11-21, 323
+	16-11-22, 335
+	16-11-28, 335
+	16-11-29, 336
+	16-11-30, 336
+	16-12-01, 336
+	16-12-02, 336
+	16-12-03, 337
+	16-12-10, 337
+	16-12-27, 346
+	16-12-28, 346
+	16-12-30, 346
+	17-01-04, 346
+	17-01-11, 346
+	17-01-13, 346
+	17-01-15, 346
+	17-01-16, 346
+	17-01-17, 346
+	17-01-23, 346
+	17-01-28, 346
+	17-01-30, 346
 \end{filecontents*}
+
 
 \begin{frame}{Test files over time}
 	\centering
@@ -775,13 +808,13 @@ major grid style={line width=.1pt, draw=gray!10},
 %	16-10-01,
 %	17-01-01,
 %	17-02-01},
-xticklabels={Lexer,Parser~~,AST~~,Semantic~~,IR~~,Optimization~~,Backend~~,2017~~},
+xticklabels={Lexer,Parser~~,AST~~,Semantic~~,IR~~,Optimization~~,Backend~~,2017~~,February~~},
 xlabel style={yshift=-1cm},
 x tick label style={
 	rotate=45,
 	anchor=east,
 },
-xtick={16-10-17, 16-10-24, 16-11-07, 16-11-14, 16-11-21, 16-12-05, 16-12-12, 17-01-01},
+xtick={16-10-17, 16-10-24, 16-11-07, 16-11-14, 16-11-21, 16-12-05, 16-12-12, 17-01-01, 17-02-01},
 xticklabel style={font=\footnotesize},
 %ylabel={Test file count},
 ymin=0
@@ -817,7 +850,6 @@ ymin=0
 	\begin{center}
 		\includegraphics[width=10cm]{images/preprocessor}
 	\end{center}
-\pause
 Currently supports
 \begin{itemize}
 	\item\texttt{import} statement
