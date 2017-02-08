@@ -60,7 +60,7 @@
   \maketitle
 \end{frame}
 
-\begin{frame}[fragile]{Goal of optimizations}
+\begin{frame}[fragile]{Goal of compiler optimizations}
 	\begin{minted}[escapeinside=||]{java}
 class Test {
 
@@ -81,7 +81,7 @@ class Test {
 	\end{minted}
 \end{frame}
 
-\begin{frame}[fragile]{Goal of optimizations}
+\begin{frame}[fragile]{Goal of compiler optimizations}
 	\begin{minted}[escapeinside=||]{java}
 class Test {
 
@@ -178,11 +178,11 @@ class Test {
 class Test {
 
 	public boolean run(){
-		int size = 10; int value = 34;
-		int[] arr = new int[size];
-		arr[0] = value;
-		int[] result = arr;
-		return result[0] == 34;
+		int |\highlight{size}| = 10; int |\highlight{value}| = 34;
+		int[] arr = new int[|\highlight{size}|];
+		arr[0] = |\highlight{value}|;
+		int[] |\highlight{result}| = arr;
+		return |\highlight{result}|[0] == 34;
 	}
 	
 	public int[] createArray(int size, int value){
@@ -222,7 +222,7 @@ class Test {
 	public boolean run(){
 	
 	
-		|\myonly{1}{int[] arr = new int[size];}|
+		|\myonly{1}{int[] arr = new int[10];}|
 		|\myhonly{1}{arr[0]}\mymonly{1}{ = 34;}|
 		return |\myhonly{1}{arr[0]}\myhonly{2}{34}| == 34;
 	}
@@ -257,7 +257,7 @@ class Test {
 \end{minted}
 \end{frame}
 
-\begin{frame}{Topological walk}
+\begin{frame}{Fixed-point Iteration}
 	\centering%
 \foreach \number in {1,...,7}{%
 \only<\number>{%
@@ -266,7 +266,7 @@ class Test {
 }
 \end{frame}
 
-\begin{frame}{Fixed point iteration}
+\begin{frame}{Fixed-point Iteration}
 	\centering
 	\vspace{-1cm}
 \includegraphics[height=8cm]{images/fix_point_iteration}
@@ -274,8 +274,10 @@ class Test {
 
 \begin{frame}{Additional Optimizations}
 	\begin{itemize}
-		\item Alias Analysis
-		\item Loop Invariant Code Motion
+		\item \textbf{Alias Analysis}
+		\item \textbf{Loop Invariant Code Motion}
+		\item Algebraic Simplification
+		\item Float In/Out
 	\end{itemize}
 \end{frame}
 
@@ -538,10 +540,13 @@ class Test {
 
 \begin{frame}{Summary}
 \begin{itemize}
-	\item Lots of fun and lots of works
-	\item n lines of Java code
-	\item \dots
+	\item Lots of fun and 4 months of work (don't mention "`holidays"')
+	\item Compiler are eternally demystified
+	\item 13250 SLOC of Java
+	\item ~~2500 SLOC of Python3
 \end{itemize}
+\vspace{3cm}
+\includegraphics[width=12cm]{images/additions}
 \end{frame}
 
 \end{document}
